@@ -1,0 +1,246 @@
+/* preview.css — Typora GitHub theme replica
+   Shared between live preview and PDF export.
+   Values sourced from typora/typora-default-themes github.css */
+
+.preview-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 30px;
+  padding-bottom: 100px;
+  font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial,
+    'Segoe UI Emoji', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgb(51, 51, 51);
+  -webkit-font-smoothing: antialiased;
+}
+
+.preview-content:first-child {
+  margin-top: 0;
+}
+
+/* Headings — shared */
+.preview-content h1,
+.preview-content h2,
+.preview-content h3,
+.preview-content h4,
+.preview-content h5,
+.preview-content h6 {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.preview-content h1 {
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+.preview-content h2 {
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+.preview-content h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.preview-content h4 {
+  font-size: 1.25em;
+}
+
+.preview-content h5 {
+  font-size: 1em;
+}
+
+.preview-content h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.preview-content h1:first-child {
+  margin-top: 0;
+}
+
+/* Block elements — 0.8em vertical rhythm */
+.preview-content p,
+.preview-content blockquote,
+.preview-content ul,
+.preview-content ol,
+.preview-content dl,
+.preview-content table {
+  margin: 0.8em 0;
+}
+
+/* Links */
+.preview-content a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+.preview-content a:hover {
+  text-decoration: underline;
+}
+
+/* Bold & italic */
+.preview-content strong {
+  font-weight: bold;
+}
+
+.preview-content em {
+  font-style: italic;
+}
+
+/* Lists */
+.preview-content ul,
+.preview-content ol {
+  padding-left: 30px;
+}
+
+.preview-content li > ol,
+.preview-content li > ul {
+  margin: 0;
+}
+
+/* Blockquotes */
+.preview-content blockquote {
+  border-left: 4px solid #dfe2e5;
+  padding: 0 15px;
+  color: #777777;
+}
+
+.preview-content blockquote blockquote {
+  padding-right: 0;
+}
+
+/* Code — inline */
+.preview-content code,
+.preview-content tt {
+  font-family: 'SF Mono', 'Fira Code', Menlo, 'Courier New', monospace;
+  border: 1px solid #e7eaed;
+  background-color: #f3f4f4;
+  border-radius: 3px;
+  padding: 0 2px;
+  font-size: 0.9em;
+}
+
+/* Code — blocks */
+.preview-content pre {
+  margin: 15px 0;
+  padding: 8px 16px 6px;
+  background-color: #f8f8f8;
+  border: 1px solid #e7eaed;
+  border-radius: 3px;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+
+.preview-content pre code,
+.preview-content pre tt {
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+/* Tables */
+.preview-content table {
+  padding: 0;
+  word-break: initial;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.preview-content table tr {
+  border: 1px solid #dfe2e5;
+  margin: 0;
+  padding: 0;
+}
+
+.preview-content table tr:nth-child(2n),
+.preview-content thead {
+  background-color: #f8f8f8;
+}
+
+.preview-content table th {
+  font-weight: bold;
+  border: 1px solid #dfe2e5;
+  border-bottom: 0;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+.preview-content table td {
+  border: 1px solid #dfe2e5;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+/* Horizontal rule */
+.preview-content hr {
+  height: 2px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+
+/* Images */
+.preview-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Checkbox lists (task lists) */
+.preview-content input[type="checkbox"] {
+  margin-right: 0.4em;
+}
+
+/* YAML front matter */
+.preview-content pre.md-meta-block {
+  padding: 1rem;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border: 0;
+  border-radius: 3px;
+  color: #777777;
+  margin-top: 0 !important;
+}
+
+/* Print / PDF — same look, adjusted font size */
+@media print {
+  .preview-content {
+    font-size: 13px;
+    max-width: none;
+    padding: 0;
+    padding-bottom: 0;
+  }
+
+  .preview-content pre {
+    page-break-inside: avoid;
+    word-wrap: break-word;
+  }
+
+  .preview-content h1,
+  .preview-content h2,
+  .preview-content h3,
+  .preview-content h4 {
+    page-break-after: avoid;
+  }
+
+  .preview-content table,
+  .preview-content blockquote {
+    page-break-inside: avoid;
+  }
+}

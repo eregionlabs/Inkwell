@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Inkwell</title>
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/preview.css">
+</head>
+<body>
+  <div class="toolbar">
+    <button id="btn-open" title="Open (Cmd+O)">Open</button>
+    <button id="btn-save" title="Save (Cmd+S)">Save</button>
+    <button id="btn-export" title="Export PDF (Cmd+P)">Export PDF</button>
+    <span id="filename" class="filename">Untitled</span>
+    <span id="modified-indicator" class="modified-indicator"></span>
+  </div>
+  <div class="main">
+    <div class="editor-pane">
+      <textarea id="editor" spellcheck="false" placeholder="Start writing markdown..."></textarea>
+    </div>
+    <div class="divider"></div>
+    <div class="preview-pane">
+      <div id="preview" class="preview-content"></div>
+    </div>
+  </div>
+  <script src="node_modules/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
