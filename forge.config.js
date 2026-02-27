@@ -3,36 +3,39 @@ const path = require('node:path');
 module.exports = {
   packagerConfig: {
     name: 'InkBlot',
-    appBundleId: 'com.eregionlabs.inkblot',
+    appBundleId: 'com.eregionlabs.inkwell',
     appVersion: '1.0.0',
-    buildVersion: '1',
+    buildVersion: '2',
     icon: path.join(__dirname, 'build', 'icon'),
     asar: true,
     appCategoryType: 'public.app-category.productivity',
+    extraResource: [
+      path.join(__dirname, 'build', 'Assets.car'),
+    ],
 
     extendInfo: {
-      ElectronTeamID: 'REPLACE_WITH_YOUR_TEAM_ID',
+      ElectronTeamID: '4U4L9UVK62',
       CFBundleIconName: 'AppIcon',
+      LSMinimumSystemVersion: '12.0.0',
     },
 
-    // Uncomment and fill in when ready to sign for MAS:
-    // osxSign: {
-    //   identity: 'Apple Distribution: Your Name (TEAM_ID)',
-    //   platform: 'mas',
-    //   provisioningProfile: path.join(__dirname, 'build', 'MacAppStore_Distribution.provisionprofile'),
-    //   optionsForFile: (filePath) => {
-    //     if (filePath.includes('.app/')) {
-    //       return {
-    //         hardenedRuntime: false,
-    //         entitlements: path.join(__dirname, 'build', 'entitlements.mas.inherit.plist'),
-    //       };
-    //     }
-    //     return {
-    //       hardenedRuntime: false,
-    //       entitlements: path.join(__dirname, 'build', 'entitlements.mas.plist'),
-    //     };
-    //   },
-    // },
+    osxSign: {
+      identity: 'Apple Distribution: Eregion Labs LLC (4U4L9UVK62)',
+      platform: 'mas',
+      provisioningProfile: path.join(__dirname, 'build', 'InkBlot_Provisiong_Profile.provisionprofile'),
+      optionsForFile: (filePath) => {
+        if (filePath.includes('.app/')) {
+          return {
+            hardenedRuntime: false,
+            entitlements: path.join(__dirname, 'build', 'entitlements.mas.inherit.plist'),
+          };
+        }
+        return {
+          hardenedRuntime: false,
+          entitlements: path.join(__dirname, 'build', 'entitlements.mas.plist'),
+        };
+      },
+    },
   },
 
   makers: [
@@ -40,7 +43,7 @@ module.exports = {
       name: '@electron-forge/maker-pkg',
       platforms: ['mas'],
       config: {
-        // identity: '3rd Party Mac Developer Installer: Your Name (TEAM_ID)',
+        identity: '3rd Party Mac Developer Installer: Eregion Labs LLC (4U4L9UVK62)',
       },
     },
     {

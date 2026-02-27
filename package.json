@@ -10,7 +10,8 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "make:mas": "electron-forge make --platform=mas --arch=universal"
+    "make:mas": "electron-forge make --platform=mas --arch=universal",
+    "test": "npx playwright test"
   },
   "config": {
     "forge": "./forge.config.js"
@@ -22,6 +23,8 @@
     "@electron-forge/cli": "^7.11.1",
     "@electron-forge/maker-dmg": "^7.11.1",
     "@electron-forge/maker-pkg": "^7.11.1",
-    "electron": "^33.0.0"
+    "@playwright/test": "^1.58.2",
+    "electron": "^33.0.0",
+    "playwright": "^1.58.2"
   }
 }
