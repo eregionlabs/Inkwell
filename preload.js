@@ -10,4 +10,9 @@ contextBridge.exposeInMainWorld('api', {
   onMenuSave: (cb) => ipcRenderer.on('menu-save', cb),
   onMenuSaveAs: (cb) => ipcRenderer.on('menu-save-as', cb),
   onMenuExportPdf: (cb) => ipcRenderer.on('menu-export-pdf', cb),
+
+  // In-app purchase
+  purchase: () => ipcRenderer.invoke('iap-purchase'),
+  restorePurchase: () => ipcRenderer.invoke('iap-restore'),
+  onIapUnlocked: (cb) => ipcRenderer.on('iap-unlocked', cb),
 });

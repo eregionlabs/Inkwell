@@ -1,6 +1,9 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, inAppPurchase } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+const PRODUCT_ID = 'com.eregionlabs.inkblot.fullaccess';
+const iconPath = path.join(__dirname, 'build', 'icon_1024.png');
 
 let mainWindow;
 
@@ -8,13 +11,19 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    title: 'Inkwell',
+    title: 'InkBlot',
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
     },
   });
+
+  // Set dock icon for development mode
+  if (app.dock) {
+    app.dock.setIcon(iconPath);
+  }
 
   mainWindow.loadFile('index.html');
 
@@ -160,3 +169,47 @@ ipcMain.handle('export-pdf', async (event, { html }) => {
   fs.writeFileSync(result.filePath, pdfData);
   return true;
 });
+
+// --- In-App Purchase Handlers ---
+
+ipcMain.handle('iap-purchase', async () => {
+  // inAppPurchase is only available in MAS builds; graceful fallback for dev
+  if (!inAppPurchase || !inAppPurchase.canMakePayments()) {
+    return { success: false, error: 'Purchases not available (non-MAS build)' };
+  }
+  try {
+    const products = await inAppPurchase.getProducts([PRODUCT_ID]);
+    if (products.length === 0) {
+      return { success: false, error: 'Product not found' };
+    }
+    inAppPurchase.purchaseProduct(PRODUCT_ID);
+    return { success: true, pending: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('iap-restore', async () => {
+  if (!inAppPurchase || !inAppPurchase.canMakePayments()) {
+    return { success: false, error: 'Purchases not available (non-MAS build)' };
+  }
+  inAppPurchase.restoreCompletedTransactions();
+  return { success: true };
+});
+
+// Listen for transaction updates (purchase completed/restored)
+if (inAppPurchase) {
+  inAppPurchase.on('transactions-updated', (event, transactions) => {
+    for (const tx of transactions) {
+      const isPurchased =
+        tx.transactionState === 'purchased' ||
+        tx.transactionState === 'restored';
+      if (isPurchased && tx.payment.productIdentifier === PRODUCT_ID) {
+        if (mainWindow) {
+          mainWindow.webContents.send('iap-unlocked');
+        }
+        inAppPurchase.finishTransactionByDate(tx.transactionDate);
+      }
+    }
+  });
+}

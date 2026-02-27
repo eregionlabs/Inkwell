@@ -138,6 +138,72 @@ editor.addEventListener('keydown', (e) => {
   }
 });
 
+// --- Trial & Paywall ---
+
+const TRIAL_DURATION_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+const paywall = document.getElementById('paywall');
+
+function isUnlocked() {
+  return localStorage.getItem('inkblot_unlocked') === 'true';
+}
+
+function getTrialStart() {
+  let start = localStorage.getItem('inkblot_trial_start');
+  if (!start) {
+    start = Date.now().toString();
+    localStorage.setItem('inkblot_trial_start', start);
+  }
+  return parseInt(start, 10);
+}
+
+function isTrialExpired() {
+  return Date.now() - getTrialStart() > TRIAL_DURATION_MS;
+}
+
+function showPaywall() {
+  paywall.style.display = 'flex';
+  editor.disabled = true;
+}
+
+function hidePaywall() {
+  paywall.style.display = 'none';
+  editor.disabled = false;
+}
+
+function checkAccess() {
+  if (isUnlocked() || !isTrialExpired()) {
+    hidePaywall();
+  } else {
+    showPaywall();
+  }
+}
+
+function unlock() {
+  localStorage.setItem('inkblot_unlocked', 'true');
+  hidePaywall();
+}
+
+// Purchase button
+document.getElementById('btn-purchase').addEventListener('click', async () => {
+  const result = await window.api.purchase();
+  // In non-MAS dev builds, unlock immediately for testing
+  if (result.error && result.error.includes('non-MAS')) {
+    unlock();
+  }
+});
+
+// Restore button
+document.getElementById('btn-restore').addEventListener('click', async () => {
+  await window.api.restorePurchase();
+});
+
+// Listen for unlock from main process (MAS purchase/restore completed)
+window.api.onIapUnlocked(() => unlock());
+
+// Check access on launch and periodically
+checkAccess();
+setInterval(checkAccess, 60 * 1000); // recheck every minute
+
 // --- Initial render ---
 
 renderPreview();

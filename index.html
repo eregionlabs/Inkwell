@@ -2,9 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Inkwell</title>
+  <title>InkBlot</title>
   <link rel="stylesheet" href="styles/app.css">
   <link rel="stylesheet" href="styles/preview.css">
+  <link rel="stylesheet" href="styles/paywall.css">
 </head>
 <body>
   <div class="toolbar">
@@ -23,6 +24,18 @@
       <div id="preview" class="preview-content"></div>
     </div>
   </div>
+  <!-- Paywall overlay -->
+  <div id="paywall" class="paywall-overlay" style="display: none;">
+    <div class="paywall-card">
+      <div class="paywall-icon">&#9997;&#65039;</div>
+      <h2>Your free trial has ended</h2>
+      <p>Unlock InkBlot forever for just <strong>$0.99</strong></p>
+      <p class="paywall-features">Beautiful markdown editing with pixel-perfect PDF export</p>
+      <button id="btn-purchase" class="paywall-btn">Unlock InkBlot — $0.99</button>
+      <button id="btn-restore" class="paywall-btn-secondary">Restore Purchase</button>
+    </div>
+  </div>
+
   <script src="node_modules/markdown-it/dist/markdown-it.min.js"></script>
   <script src="renderer.js"></script>
 </body>

@@ -1,0 +1,88 @@
+/* Paywall overlay */
+.paywall-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paywall-card {
+  text-align: center;
+  max-width: 380px;
+  padding: 48px 40px;
+}
+
+.paywall-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.paywall-card h2 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 12px;
+}
+
+.paywall-card p {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  color: #555;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.paywall-features {
+  color: #888 !important;
+  font-size: 13px !important;
+  margin-bottom: 28px !important;
+}
+
+.paywall-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 12px;
+}
+
+.paywall-btn:hover {
+  background: #2c2c4a;
+}
+
+.paywall-btn:active {
+  background: #111;
+}
+
+.paywall-btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 10px 24px;
+  font-size: 14px;
+  color: #666;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.paywall-btn-secondary:hover {
+  color: #333;
+  text-decoration: underline;
+}
