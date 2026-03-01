@@ -9,13 +9,25 @@
 </head>
 <body>
   <div class="toolbar">
-    <button id="btn-open" title="Open (Cmd+O)">Open</button>
+    <button id="btn-open" title="Open File (Cmd+O)">Open</button>
+    <button id="btn-open-folder" title="Open Folder (Cmd+Shift+O)">Open Folder</button>
     <button id="btn-save" title="Save (Cmd+S)">Save</button>
     <button id="btn-export" title="Export PDF (Cmd+P)">Export PDF</button>
+    <div class="toolbar-separator"></div>
+    <button id="btn-preview-fullscreen" title="Toggle Preview (Cmd+Shift+P)">Preview</button>
+    <span class="toolbar-spacer"></span>
     <span id="filename" class="filename">Untitled</span>
     <span id="modified-indicator" class="modified-indicator"></span>
   </div>
   <div class="main">
+    <div class="sidebar" id="sidebar" style="display: none;">
+      <div class="sidebar-header">
+        <span class="sidebar-title" id="sidebar-title">Folder</span>
+        <button class="sidebar-close" id="sidebar-close" title="Close sidebar">&times;</button>
+      </div>
+      <div class="sidebar-files" id="sidebar-files"></div>
+    </div>
+    <div class="sidebar-divider" id="sidebar-divider" style="display: none;"></div>
     <div class="editor-pane">
       <textarea id="editor" spellcheck="false" placeholder="Start writing markdown..."></textarea>
     </div>

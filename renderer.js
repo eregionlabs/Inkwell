@@ -77,18 +77,117 @@ async function exportPdf() {
   await window.api.exportPdf({ html });
 }
 
+// --- Full-screen preview toggle ---
+
+const mainEl = document.querySelector('.main');
+const btnPreview = document.getElementById('btn-preview-fullscreen');
+let previewFullscreen = false;
+
+function togglePreviewFullscreen() {
+  previewFullscreen = !previewFullscreen;
+  mainEl.classList.toggle('preview-fullscreen', previewFullscreen);
+  btnPreview.classList.toggle('active', previewFullscreen);
+}
+
+// --- Open folder / sidebar ---
+
+const sidebar = document.getElementById('sidebar');
+const sidebarDivider = document.getElementById('sidebar-divider');
+const sidebarFiles = document.getElementById('sidebar-files');
+const sidebarTitle = document.getElementById('sidebar-title');
+let folderTree = null;
+let folderPath = null;
+
+async function openFolder() {
+  const result = await window.api.openFolder();
+  if (!result) return;
+  folderPath = result.dirPath;
+  folderTree = result.tree;
+  sidebarTitle.textContent = folderPath.split('/').pop();
+  renderSidebar();
+  sidebar.style.display = 'flex';
+  sidebarDivider.style.display = '';
+}
+
+function renderSidebar() {
+  sidebarFiles.innerHTML = '';
+  if (!folderTree) return;
+  renderTree(folderTree, sidebarFiles);
+}
+
+function renderTree(items, container) {
+  for (const item of items) {
+    const el = document.createElement('div');
+    el.className = 'sidebar-item' + (item.type === 'folder' ? ' folder' : '');
+
+    // Indentation
+    for (let i = 0; i < item.depth; i++) {
+      const indent = document.createElement('span');
+      indent.className = 'indent';
+      el.appendChild(indent);
+    }
+
+    const icon = document.createElement('span');
+    icon.className = 'icon';
+
+    if (item.type === 'folder') {
+      icon.textContent = item._open ? '\u25BE' : '\u25B8';
+      el.appendChild(icon);
+      el.appendChild(document.createTextNode(item.name));
+      el.addEventListener('click', () => {
+        item._open = !item._open;
+        renderSidebar();
+      });
+      container.appendChild(el);
+      if (item._open && item.children) {
+        renderTree(item.children, container);
+      }
+    } else {
+      icon.textContent = '\u2514';
+      el.appendChild(icon);
+      el.appendChild(document.createTextNode(item.name));
+      if (item.path === currentFilePath) {
+        el.classList.add('active');
+      }
+      el.addEventListener('click', () => openSidebarFile(item.path));
+      container.appendChild(el);
+    }
+  }
+}
+
+async function openSidebarFile(filePath) {
+  const result = await window.api.readFile(filePath);
+  if (result) {
+    setFile(result.filePath, result.content);
+    renderSidebar(); // refresh active highlight
+  }
+}
+
+function closeSidebar() {
+  sidebar.style.display = 'none';
+  sidebarDivider.style.display = 'none';
+  folderTree = null;
+  folderPath = null;
+}
+
+document.getElementById('sidebar-close').addEventListener('click', closeSidebar);
+
 // --- Toolbar buttons ---
 
 document.getElementById('btn-open').addEventListener('click', openFile);
+document.getElementById('btn-open-folder').addEventListener('click', openFolder);
 document.getElementById('btn-save').addEventListener('click', saveFile);
 document.getElementById('btn-export').addEventListener('click', exportPdf);
+btnPreview.addEventListener('click', togglePreviewFullscreen);
 
 // --- Menu shortcuts ---
 
 window.api.onMenuOpen(() => openFile());
+window.api.onMenuOpenFolder(() => openFolder());
 window.api.onMenuSave(() => saveFile());
 window.api.onMenuSaveAs(() => saveFileAs());
 window.api.onMenuExportPdf(() => exportPdf());
+window.api.onMenuTogglePreview(() => togglePreviewFullscreen());
 
 // --- Resizable divider ---
 
@@ -120,6 +219,27 @@ document.addEventListener('mouseup', () => {
     document.body.style.cursor = '';
     document.body.style.userSelect = '';
   }
+  if (isSidebarResizing) {
+    isSidebarResizing = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+});
+
+// --- Sidebar divider resize ---
+
+let isSidebarResizing = false;
+
+sidebarDivider.addEventListener('mousedown', (e) => {
+  isSidebarResizing = true;
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isSidebarResizing) return;
+  const newWidth = Math.max(140, Math.min(400, e.clientX));
+  sidebar.style.width = newWidth + 'px';
 });
 
 // --- Tab key support in editor ---

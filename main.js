@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const PRODUCT_ID = 'com.eregionlabs.inkblot.fullaccess';
-const iconPath = path.join(__dirname, 'build', 'icon_1024.png');
+const iconPath = path.join(__dirname, 'build', 'icon_dock.png');
 
 let mainWindow;
 
@@ -32,9 +32,14 @@ function createWindow() {
       label: 'File',
       submenu: [
         {
-          label: 'Open',
+          label: 'Open File',
           accelerator: 'CmdOrCtrl+O',
           click: () => mainWindow.webContents.send('menu-open'),
+        },
+        {
+          label: 'Open Folder',
+          accelerator: 'CmdOrCtrl+Shift+O',
+          click: () => mainWindow.webContents.send('menu-open-folder'),
         },
         {
           label: 'Save',
@@ -71,6 +76,12 @@ function createWindow() {
     {
       label: 'View',
       submenu: [
+        {
+          label: 'Toggle Preview',
+          accelerator: 'CmdOrCtrl+Shift+P',
+          click: () => mainWindow.webContents.send('menu-toggle-preview'),
+        },
+        { type: 'separator' },
         { role: 'toggleDevTools' },
         { role: 'resetZoom' },
         { role: 'zoomIn' },
@@ -106,6 +117,63 @@ ipcMain.handle('open-file', async () => {
   const filePath = result.filePaths[0];
   const content = fs.readFileSync(filePath, 'utf-8');
   return { filePath, content };
+});
+
+ipcMain.handle('open-folder', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory'],
+  });
+  if (result.canceled) return null;
+  const dirPath = result.filePaths[0];
+  const tree = readDirTree(dirPath, dirPath);
+  return { dirPath, tree };
+});
+
+function readDirTree(dirPath, rootPath, depth = 0) {
+  const entries = [];
+  let items;
+  try {
+    items = fs.readdirSync(dirPath, { withFileTypes: true });
+  } catch {
+    return entries;
+  }
+  // Sort: folders first, then files, alphabetical within each
+  items.sort((a, b) => {
+    if (a.isDirectory() && !b.isDirectory()) return -1;
+    if (!a.isDirectory() && b.isDirectory()) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  for (const item of items) {
+    if (item.name.startsWith('.')) continue; // skip hidden
+    if (item.name === 'node_modules') continue;
+    const fullPath = path.join(dirPath, item.name);
+    if (item.isDirectory()) {
+      entries.push({
+        name: item.name,
+        path: fullPath,
+        type: 'folder',
+        depth,
+        children: depth < 5 ? readDirTree(fullPath, rootPath, depth + 1) : [],
+      });
+    } else {
+      entries.push({
+        name: item.name,
+        path: fullPath,
+        type: 'file',
+        depth,
+      });
+    }
+  }
+  return entries;
+}
+
+ipcMain.handle('read-file', async (event, filePath) => {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return { filePath, content };
+  } catch (err) {
+    return null;
+  }
 });
 
 ipcMain.handle('save-file', async (event, { filePath, content }) => {
