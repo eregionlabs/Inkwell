@@ -68,10 +68,69 @@ html, body {
   flex: 1;
 }
 
+/* Find bar */
+.find-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.find-bar input {
+  width: 220px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  outline: none;
+  background: #fff;
+}
+
+.find-bar input:focus {
+  border-color: #4183C4;
+}
+
+.find-count {
+  font-size: 12px;
+  color: #888;
+  min-width: 60px;
+  text-align: center;
+}
+
+.find-btn {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #555;
+  cursor: pointer;
+  padding: 2px 8px;
+  line-height: 1;
+}
+
+.find-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.find-close {
+  border: none;
+  font-size: 16px;
+  margin-left: 2px;
+}
+
 /* Main layout */
 .main {
   display: flex;
-  height: calc(100% - 37px);
+  flex: 1;
+  min-height: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 .editor-pane {

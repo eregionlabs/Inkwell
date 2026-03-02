@@ -14,6 +14,12 @@ contextBridge.exposeInMainWorld('api', {
   onMenuSaveAs: (cb) => ipcRenderer.on('menu-save-as', cb),
   onMenuExportPdf: (cb) => ipcRenderer.on('menu-export-pdf', cb),
   onMenuTogglePreview: (cb) => ipcRenderer.on('menu-toggle-preview', cb),
+  onMenuFind: (cb) => ipcRenderer.on('menu-find', cb),
+
+  // Find in page
+  findInPage: (text, options) => ipcRenderer.invoke('find-in-page', text, options),
+  stopFind: () => ipcRenderer.invoke('stop-find'),
+  onFindResult: (cb) => ipcRenderer.on('find-result', (event, result) => cb(result)),
 
   // In-app purchase
   purchase: () => ipcRenderer.invoke('iap-purchase'),

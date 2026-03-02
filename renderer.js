@@ -242,6 +242,88 @@ document.addEventListener('mousemove', (e) => {
   sidebar.style.width = newWidth + 'px';
 });
 
+// --- Find in page ---
+
+const findBar = document.getElementById('find-bar');
+const findInput = document.getElementById('find-input');
+const findCount = document.getElementById('find-count');
+let findVisible = false;
+
+function showFind() {
+  findBar.style.display = 'flex';
+  findVisible = true;
+  findInput.focus();
+  findInput.select();
+}
+
+function hideFind() {
+  findBar.style.display = 'none';
+  findVisible = false;
+  findCount.textContent = '';
+  findInput.value = '';
+  window.api.stopFind();
+}
+
+function doFind(forward) {
+  const text = findInput.value;
+  if (!text) {
+    findCount.textContent = '';
+    window.api.stopFind();
+    return;
+  }
+  window.api.findInPage(text, { forward, findNext: true });
+}
+
+findInput.addEventListener('input', () => {
+  const text = findInput.value;
+  if (!text) {
+    findCount.textContent = '';
+    window.api.stopFind();
+    return;
+  }
+  // Fresh search (not findNext) so it starts from the top
+  window.api.findInPage(text, { forward: true });
+});
+
+findInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    doFind(!e.shiftKey);
+  }
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    hideFind();
+  }
+});
+
+document.getElementById('find-next').addEventListener('click', () => doFind(true));
+document.getElementById('find-prev').addEventListener('click', () => doFind(false));
+document.getElementById('find-close').addEventListener('click', hideFind);
+
+window.api.onMenuFind(() => {
+  if (findVisible) {
+    findInput.focus();
+    findInput.select();
+  } else {
+    showFind();
+  }
+});
+
+window.api.onFindResult((result) => {
+  if (result.matches === 0) {
+    findCount.textContent = 'No results';
+  } else {
+    findCount.textContent = `${result.activeMatchOrdinal} of ${result.matches}`;
+  }
+});
+
+// Global Escape to close find bar
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && findVisible) {
+    hideFind();
+  }
+});
+
 // --- Tab key support in editor ---
 
 editor.addEventListener('keydown', (e) => {

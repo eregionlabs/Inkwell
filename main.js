@@ -71,6 +71,12 @@ function createWindow() {
         { role: 'copy' },
         { role: 'paste' },
         { role: 'selectAll' },
+        { type: 'separator' },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => mainWindow.webContents.send('menu-find'),
+        },
       ],
     },
     {
@@ -93,7 +99,29 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+
+  // Relay find-in-page results back to renderer
+  mainWindow.webContents.on('found-in-page', (event, result) => {
+    mainWindow.webContents.send('find-result', {
+      activeMatchOrdinal: result.activeMatchOrdinal,
+      matches: result.matches,
+    });
+  });
+});
+
+ipcMain.handle('find-in-page', (event, text, options) => {
+  if (!text) {
+    mainWindow.webContents.stopFindInPage('clearSelection');
+    return;
+  }
+  mainWindow.webContents.findInPage(text, options || {});
+});
+
+ipcMain.handle('stop-find', () => {
+  mainWindow.webContents.stopFindInPage('clearSelection');
+});
 
 app.on('window-all-closed', () => {
   app.quit();
