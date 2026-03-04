@@ -115,6 +115,11 @@ html, body {
   color: #333;
 }
 
+.find-count.no-results {
+  color: #c0392b;
+  font-weight: 500;
+}
+
 .find-close {
   border: none;
   font-size: 16px;
@@ -159,12 +164,17 @@ body {
   color: #ccc;
 }
 
-/* Divider */
+/* Divider — wide hit target, thin visual line */
 .divider {
-  width: 1px;
-  background: #e8e8e8;
+  width: 7px;
+  background: transparent;
+  border-left: 1px solid #e8e8e8;
   cursor: col-resize;
   flex-shrink: 0;
+  margin-left: -3px;
+  margin-right: -3px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Preview pane */
@@ -281,8 +291,9 @@ body {
 }
 
 .sidebar-divider {
-  width: 1px;
-  background: #e8e8e8;
+  width: 5px;
+  background: transparent;
+  border-right: 1px solid #e8e8e8;
   cursor: col-resize;
   flex-shrink: 0;
 }

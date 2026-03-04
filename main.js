@@ -6,6 +6,8 @@ const PRODUCT_ID = 'com.eregionlabs.inkblot.fullaccess';
 const iconPath = path.join(__dirname, 'build', 'icon_dock.png');
 
 let mainWindow;
+let watchedFolder = null;
+let fsWatcher = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -31,6 +33,11 @@ function createWindow() {
     {
       label: 'File',
       submenu: [
+        {
+          label: 'New File',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => mainWindow.webContents.send('menu-new'),
+        },
         {
           label: 'Open File',
           accelerator: 'CmdOrCtrl+O',
@@ -86,6 +93,11 @@ function createWindow() {
           label: 'Toggle Preview',
           accelerator: 'CmdOrCtrl+Shift+P',
           click: () => mainWindow.webContents.send('menu-toggle-preview'),
+        },
+        {
+          label: 'Toggle Sidebar',
+          accelerator: 'CmdOrCtrl+B',
+          click: () => mainWindow.webContents.send('menu-toggle-sidebar'),
         },
         { type: 'separator' },
         { role: 'toggleDevTools' },
@@ -202,6 +214,54 @@ ipcMain.handle('read-file', async (event, filePath) => {
   } catch (err) {
     return null;
   }
+});
+
+ipcMain.handle('watch-folder', (event, dirPath) => {
+  if (fsWatcher) {
+    fsWatcher.close();
+    fsWatcher = null;
+  }
+  watchedFolder = dirPath;
+  if (!dirPath) return;
+  let debounceTimer = null;
+  try {
+    fsWatcher = fs.watch(dirPath, { recursive: true }, () => {
+      // Debounce: rapid changes (git, bulk ops) trigger one refresh
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (mainWindow && watchedFolder) {
+          const tree = readDirTree(watchedFolder, watchedFolder);
+          mainWindow.webContents.send('folder-changed', tree);
+        }
+      }, 300);
+    });
+  } catch {
+    // Folder may not be watchable
+  }
+});
+
+ipcMain.handle('unwatch-folder', () => {
+  if (fsWatcher) {
+    fsWatcher.close();
+    fsWatcher = null;
+  }
+  watchedFolder = null;
+});
+
+ipcMain.handle('check-unsaved', async (event, fileName) => {
+  const result = await dialog.showMessageBox(mainWindow, {
+    type: 'warning',
+    buttons: ['Save', "Don't Save", 'Cancel'],
+    defaultId: 0,
+    cancelId: 2,
+    message: `"${fileName}" has unsaved changes.`,
+    detail: 'Do you want to save before continuing?',
+  });
+  return result.response; // 0=Save, 1=Don't Save, 2=Cancel
+});
+
+ipcMain.handle('set-title', (event, title) => {
+  if (mainWindow) mainWindow.setTitle(title);
 });
 
 ipcMain.handle('save-file', async (event, { filePath, content }) => {

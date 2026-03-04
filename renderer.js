@@ -12,11 +12,13 @@ const modifiedEl = document.getElementById('modified-indicator');
 let currentFilePath = null;
 let savedContent = '';
 
-// --- Rendering ---
+// --- Rendering (scroll-preserving) ---
 
 function renderPreview() {
+  const scrollTop = preview.parentElement.scrollTop;
   const text = editor.value;
   preview.innerHTML = md.render(text);
+  preview.parentElement.scrollTop = scrollTop;
 }
 
 editor.addEventListener('input', () => {
@@ -29,20 +31,57 @@ function updateModifiedState() {
   modifiedEl.textContent = isModified ? '(unsaved)' : '';
 }
 
+function isModified() {
+  return editor.value !== savedContent;
+}
+
+function currentFileName() {
+  return currentFilePath ? currentFilePath.split('/').pop() : 'Untitled';
+}
+
+function updateWindowTitle() {
+  const name = currentFileName();
+  const prefix = isModified() ? '\u2022 ' : '';
+  window.api.setTitle(`${prefix}${name} — InkBlot`);
+}
+
 function setFile(filePath, content) {
   currentFilePath = filePath;
   savedContent = content;
   editor.value = content;
-  filenameEl.textContent = filePath
-    ? filePath.split('/').pop()
-    : 'Untitled';
+  filenameEl.textContent = currentFileName();
   modifiedEl.textContent = '';
+  updateWindowTitle();
   renderPreview();
+}
+
+// --- Unsaved changes guard ---
+
+async function guardUnsaved() {
+  if (!isModified()) return true; // safe to proceed
+  const response = await window.api.checkUnsaved(currentFileName());
+  if (response === 0) {
+    // Save
+    await saveFile();
+    return true;
+  }
+  if (response === 1) {
+    // Don't Save
+    return true;
+  }
+  // Cancel
+  return false;
 }
 
 // --- File operations ---
 
+async function newFile() {
+  if (!(await guardUnsaved())) return;
+  setFile(null, '');
+}
+
 async function openFile() {
+  if (!(await guardUnsaved())) return;
   const result = await window.api.openFile();
   if (result) {
     setFile(result.filePath, result.content);
@@ -57,6 +96,7 @@ async function saveFile() {
     });
     savedContent = editor.value;
     updateModifiedState();
+    updateWindowTitle();
   } else {
     await saveFileAs();
   }
@@ -67,8 +107,9 @@ async function saveFileAs() {
   if (newPath) {
     currentFilePath = newPath;
     savedContent = editor.value;
-    filenameEl.textContent = newPath.split('/').pop();
+    filenameEl.textContent = currentFileName();
     updateModifiedState();
+    updateWindowTitle();
   }
 }
 
@@ -97,16 +138,58 @@ const sidebarFiles = document.getElementById('sidebar-files');
 const sidebarTitle = document.getElementById('sidebar-title');
 let folderTree = null;
 let folderPath = null;
+let openFolderPaths = new Set(); // remember expanded folders
+
+// Text file extensions we recognize
+const TEXT_EXTENSIONS = new Set([
+  'md', 'markdown', 'txt', 'text', 'json', 'yml', 'yaml', 'xml',
+  'html', 'htm', 'css', 'js', 'ts', 'jsx', 'tsx', 'py', 'rb',
+  'sh', 'bash', 'zsh', 'fish', 'toml', 'ini', 'cfg', 'conf',
+  'env', 'gitignore', 'log', 'csv', 'svg', 'rs', 'go', 'java',
+  'c', 'h', 'cpp', 'hpp', 'swift', 'kt', 'lua', 'r', 'sql',
+  'graphql', 'proto', 'makefile', 'dockerfile', 'license', 'readme',
+]);
+
+function isTextFile(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const baseName = name.toLowerCase();
+  // Files without extensions that are commonly text
+  if (!name.includes('.')) {
+    return ['makefile', 'dockerfile', 'license', 'readme', 'changelog', 'gemfile', 'rakefile', 'procfile'].includes(baseName);
+  }
+  return TEXT_EXTENSIONS.has(ext);
+}
 
 async function openFolder() {
   const result = await window.api.openFolder();
   if (!result) return;
   folderPath = result.dirPath;
   folderTree = result.tree;
+  openFolderPaths.clear();
   sidebarTitle.textContent = folderPath.split('/').pop();
   renderSidebar();
+  showSidebar();
+  // Start watching for changes
+  window.api.watchFolder(folderPath);
+}
+
+function showSidebar() {
   sidebar.style.display = 'flex';
   sidebarDivider.style.display = '';
+}
+
+function hideSidebar() {
+  sidebar.style.display = 'none';
+  sidebarDivider.style.display = 'none';
+}
+
+function toggleSidebar() {
+  if (!folderTree) return; // no folder loaded, nothing to toggle
+  if (sidebar.style.display === 'none') {
+    showSidebar();
+  } else {
+    hideSidebar();
+  }
 }
 
 function renderSidebar() {
@@ -117,6 +200,8 @@ function renderSidebar() {
 
 function renderTree(items, container) {
   for (const item of items) {
+    if (item.type === 'file' && !isTextFile(item.name)) continue;
+
     const el = document.createElement('div');
     el.className = 'sidebar-item' + (item.type === 'folder' ? ' folder' : '');
 
@@ -131,19 +216,24 @@ function renderTree(items, container) {
     icon.className = 'icon';
 
     if (item.type === 'folder') {
-      icon.textContent = item._open ? '\u25BE' : '\u25B8';
+      const isOpen = openFolderPaths.has(item.path);
+      icon.textContent = isOpen ? '\u25BE' : '\u25B8';
       el.appendChild(icon);
       el.appendChild(document.createTextNode(item.name));
       el.addEventListener('click', () => {
-        item._open = !item._open;
+        if (openFolderPaths.has(item.path)) {
+          openFolderPaths.delete(item.path);
+        } else {
+          openFolderPaths.add(item.path);
+        }
         renderSidebar();
       });
       container.appendChild(el);
-      if (item._open && item.children) {
+      if (isOpen && item.children) {
         renderTree(item.children, container);
       }
     } else {
-      icon.textContent = '\u2514';
+      icon.textContent = '\u2013'; // en dash — clean file marker
       el.appendChild(icon);
       el.appendChild(document.createTextNode(item.name));
       if (item.path === currentFilePath) {
@@ -156,6 +246,7 @@ function renderTree(items, container) {
 }
 
 async function openSidebarFile(filePath) {
+  if (!(await guardUnsaved())) return;
   const result = await window.api.readFile(filePath);
   if (result) {
     setFile(result.filePath, result.content);
@@ -164,16 +255,24 @@ async function openSidebarFile(filePath) {
 }
 
 function closeSidebar() {
-  sidebar.style.display = 'none';
-  sidebarDivider.style.display = 'none';
+  hideSidebar();
+  window.api.unwatchFolder();
   folderTree = null;
   folderPath = null;
+  openFolderPaths.clear();
 }
+
+// Auto-sync: listen for folder changes from fs.watch
+window.api.onFolderChanged((tree) => {
+  folderTree = tree;
+  renderSidebar();
+});
 
 document.getElementById('sidebar-close').addEventListener('click', closeSidebar);
 
 // --- Toolbar buttons ---
 
+document.getElementById('btn-new').addEventListener('click', newFile);
 document.getElementById('btn-open').addEventListener('click', openFile);
 document.getElementById('btn-open-folder').addEventListener('click', openFolder);
 document.getElementById('btn-save').addEventListener('click', saveFile);
@@ -182,12 +281,14 @@ btnPreview.addEventListener('click', togglePreviewFullscreen);
 
 // --- Menu shortcuts ---
 
+window.api.onMenuNew(() => newFile());
 window.api.onMenuOpen(() => openFile());
 window.api.onMenuOpenFolder(() => openFolder());
 window.api.onMenuSave(() => saveFile());
 window.api.onMenuSaveAs(() => saveFileAs());
 window.api.onMenuExportPdf(() => exportPdf());
 window.api.onMenuTogglePreview(() => togglePreviewFullscreen());
+window.api.onMenuToggleSidebar(() => toggleSidebar());
 
 // --- Resizable divider ---
 
@@ -242,6 +343,40 @@ document.addEventListener('mousemove', (e) => {
   sidebar.style.width = newWidth + 'px';
 });
 
+// --- Drag and drop ---
+
+document.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+document.addEventListener('drop', async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const files = Array.from(e.dataTransfer.files);
+  if (files.length === 0) return;
+
+  const first = files[0];
+  if (first.type === '' && !first.name.includes('.')) {
+    // Likely a folder — can't read via File API, but we can get the path
+    // Electron gives us the path on dataTransfer files
+    if (first.path) {
+      folderPath = first.path;
+      const result = await window.api.openFolder();
+      // Can't directly pass path, so we'll read it
+    }
+  }
+
+  // If it's a regular file, open it
+  if (first.path && first.name) {
+    if (!(await guardUnsaved())) return;
+    const result = await window.api.readFile(first.path);
+    if (result) {
+      setFile(result.filePath, result.content);
+    }
+  }
+});
+
 // --- Find in page ---
 
 const findBar = document.getElementById('find-bar');
@@ -260,6 +395,7 @@ function hideFind() {
   findBar.style.display = 'none';
   findVisible = false;
   findCount.textContent = '';
+  findCount.classList.remove('no-results');
   findInput.value = '';
   window.api.stopFind();
 }
@@ -268,6 +404,7 @@ function doFind(forward) {
   const text = findInput.value;
   if (!text) {
     findCount.textContent = '';
+    findCount.classList.remove('no-results');
     window.api.stopFind();
     return;
   }
@@ -278,6 +415,7 @@ findInput.addEventListener('input', () => {
   const text = findInput.value;
   if (!text) {
     findCount.textContent = '';
+    findCount.classList.remove('no-results');
     window.api.stopFind();
     return;
   }
@@ -312,8 +450,10 @@ window.api.onMenuFind(() => {
 window.api.onFindResult((result) => {
   if (result.matches === 0) {
     findCount.textContent = 'No results';
+    findCount.classList.add('no-results');
   } else {
     findCount.textContent = `${result.activeMatchOrdinal} of ${result.matches}`;
+    findCount.classList.remove('no-results');
   }
 });
 
@@ -338,6 +478,12 @@ editor.addEventListener('keydown', (e) => {
     editor.selectionStart = editor.selectionEnd = start + 4;
     renderPreview();
   }
+});
+
+// --- Update window title on edits ---
+
+editor.addEventListener('input', () => {
+  updateWindowTitle();
 });
 
 // --- Trial & Paywall ---
@@ -408,4 +554,5 @@ setInterval(checkAccess, 60 * 1000); // recheck every minute
 
 // --- Initial render ---
 
+updateWindowTitle();
 renderPreview();
