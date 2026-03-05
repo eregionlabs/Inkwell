@@ -15,6 +15,8 @@ function createWindow() {
     height: 800,
     title: 'InkBlot',
     icon: iconPath,
+    titleBarStyle: 'hiddenInset',
+    trafficLightPosition: { x: 16, y: 14 },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -30,6 +32,20 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   const menu = Menu.buildFromTemplate([
+    {
+      label: 'InkBlot',
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
     {
       label: 'File',
       submenu: [
@@ -64,8 +80,6 @@ function createWindow() {
           accelerator: 'CmdOrCtrl+P',
           click: () => mainWindow.webContents.send('menu-export-pdf'),
         },
-        { type: 'separator' },
-        { role: 'quit' },
       ],
     },
     {
