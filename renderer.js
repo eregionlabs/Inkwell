@@ -555,4 +555,3 @@ setInterval(checkAccess, 60 * 1000); // recheck every minute
 // --- Initial render ---
 
 updateWindowTitle();
-renderPreview();

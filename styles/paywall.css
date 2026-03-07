@@ -99,3 +99,18 @@
   color: #2c2a27;
   text-decoration: underline;
 }
+
+.paywall-legal {
+  font-size: 11px !important;
+  color: #b0aaa0 !important;
+  margin-top: 16px !important;
+}
+
+.paywall-legal a {
+  color: #9a958d;
+  text-decoration: none;
+}
+
+.paywall-legal a:hover {
+  text-decoration: underline;
+}
