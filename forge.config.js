@@ -4,8 +4,8 @@ module.exports = {
   packagerConfig: {
     name: 'InkBlot',
     appBundleId: 'com.eregionlabs.inkwell',
-    appVersion: '1.1.0',
-    buildVersion: '5',
+    appVersion: '1.2.0',
+    buildVersion: '7',
     icon: path.join(__dirname, 'build', 'icon'),
     asar: true,
     appCategoryType: 'public.app-category.productivity',
