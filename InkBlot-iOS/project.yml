@@ -8,7 +8,7 @@ settings:
   base:
     DEVELOPMENT_TEAM: 4U4L9UVK62
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "6"
 
 targets:
   InkBlot:
@@ -18,7 +18,7 @@ targets:
       - InkBlot
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell
         INFOPLIST_GENERATION_MODE: GeneratedFile
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: false
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
@@ -73,7 +73,7 @@ targets:
       - QuickLookExtension
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios.quicklook
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.quicklook
         GENERATE_INFOPLIST_FILE: true
         SKIP_INSTALL: true
     info:
@@ -99,7 +99,7 @@ targets:
       - ShareExtension
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios.share
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.share
         GENERATE_INFOPLIST_FILE: true
         SKIP_INSTALL: true
     info:
