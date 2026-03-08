@@ -1,0 +1,118 @@
+name: InkBlot
+options:
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: 4U4L9UVK62
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  InkBlot:
+    type: application
+    platform: iOS
+    sources:
+      - InkBlot
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios
+        INFOPLIST_GENERATION_MODE: GeneratedFile
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: false
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_CFBundleDisplayName: InkBlot
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.productivity"
+        INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace: true
+        INFOPLIST_KEY_UISupportsDocumentBrowser: true
+        SWIFT_EMIT_LOC_STRINGS: true
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: true
+        CODE_SIGN_ENTITLEMENTS: InkBlot/InkBlot.entitlements
+    info:
+      path: InkBlot/Info.plist
+      properties:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations: {}
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Markdown
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - net.daringfireball.markdown
+              - public.plain-text
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: net.daringfireball.markdown
+            UTTypeDescription: Markdown Document
+            UTTypeConformsTo:
+              - public.plain-text
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - md
+                - markdown
+                - mdown
+                - mkd
+    entitlements:
+      path: InkBlot/InkBlot.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+    dependencies:
+      - target: QuickLookExtension
+      - target: ShareExtension
+
+  QuickLookExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - QuickLookExtension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios.quicklook
+        GENERATE_INFOPLIST_FILE: true
+        SKIP_INSTALL: true
+    info:
+      path: QuickLookExtension/Info.plist
+      properties:
+        CFBundleDisplayName: InkBlot Quick Look
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.quicklook.preview
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PreviewProvider
+        QLSupportedContentTypes:
+          - net.daringfireball.markdown
+          - public.plain-text
+        QLSupportsSearchableItems: true
+    entitlements:
+      path: QuickLookExtension/QuickLookExtension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+
+  ShareExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - ShareExtension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.eregionlabs.inkwell.ios.share
+        GENERATE_INFOPLIST_FILE: true
+        SKIP_INSTALL: true
+    info:
+      path: ShareExtension/Info.plist
+      properties:
+        CFBundleDisplayName: InkBlot Share
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsFileWithMaxCount: 1
+    entitlements:
+      path: ShareExtension/ShareExtension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true

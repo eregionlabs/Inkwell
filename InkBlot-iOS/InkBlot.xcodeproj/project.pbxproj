@@ -1,0 +1,622 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14E44F70FC94894CA89A53CC /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B28EDDFB49DC076D495CDB /* WelcomeView.swift */; };
+		245908EA10AE9776F1706E18 /* MarkdownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B8342EF968B6234B156BE8 /* MarkdownDocument.swift */; };
+		325FE15644E9A26F7EF03BBC /* MarkdownWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF5BD209A0C8124D181B084 /* MarkdownWebView.swift */; };
+		48E3A24556EA12F63AFA0198 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D09466313E41AA0B044E93 /* PreviewProvider.swift */; };
+		4FB8E10BD76659ED0E6D305D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C94F3BB2531218E04CEF16 /* ContentView.swift */; };
+		504CA8A5C3BDA0BD6DCE7D9C /* preview.css in Resources */ = {isa = PBXBuildFile; fileRef = 554F12DD0F0D2A4C15A0C9F2 /* preview.css */; };
+		551CE540E2994B56A4A8C2A5 /* DocumentReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57302141C132FA48EDC6F3E0 /* DocumentReaderView.swift */; };
+		5765D2DD84A81524594AD75F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622C2493ABD92B3B74055734 /* ShareViewController.swift */; };
+		86966D95B7849BD29D93410B /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9A52A5F16C0D70786F9DD4 /* DocumentBrowserViewController.swift */; };
+		A534381C476CBD034A326910 /* preview.css in Resources */ = {isa = PBXBuildFile; fileRef = A1FAE88D5C37270D7C99E5B9 /* preview.css */; };
+		B2A7BB93EFF0979422EFD93E /* QuickLookExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BF6A74C9B9C47CE9771C9E3E /* QuickLookExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BF7271761FD4FD24A83E0C63 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74E3EB5305098B6C9A6587E /* StoreManager.swift */; };
+		D10F0CCDCDC734D88C118D73 /* InkBlotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686A3A41C0517809867D6A73 /* InkBlotApp.swift */; };
+		DAF0F3E7033E7FE7909A878A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EE0A6AE34266CA9D1007094 /* Assets.xcassets */; };
+		DF8F0ADAC093F7197439C4A4 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0D41E84ED3470A971A721DEB /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EEA2BF44F8F42E16F7AFAA1F /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935AAFC9A534B65C71CD080 /* PaywallView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6157B1BB01F924A940DFAC56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66D5BB46C48C21621EB817C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF12031913E09CC868FAF240;
+			remoteInfo = ShareExtension;
+		};
+		89C5D4C2153D1125D8995016 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66D5BB46C48C21621EB817C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 859956E873E9C6F62250C84C;
+			remoteInfo = QuickLookExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A74E440FFD492D7F81C6E674 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B2A7BB93EFF0979422EFD93E /* QuickLookExtension.appex in Embed Foundation Extensions */,
+				DF8F0ADAC093F7197439C4A4 /* ShareExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0D41E84ED3470A971A721DEB /* ShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E481A76315E4099CE9DCBDB /* QuickLookExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuickLookExtension.entitlements; sourceTree = "<group>"; };
+		1E9A52A5F16C0D70786F9DD4 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
+		23C347D0B2B482BBFF5596DC /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
+		31C94F3BB2531218E04CEF16 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		46AEBA3AE426A241472655A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4EE0A6AE34266CA9D1007094 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		554F12DD0F0D2A4C15A0C9F2 /* preview.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = preview.css; sourceTree = "<group>"; };
+		57302141C132FA48EDC6F3E0 /* DocumentReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReaderView.swift; sourceTree = "<group>"; };
+		622C2493ABD92B3B74055734 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		686A3A41C0517809867D6A73 /* InkBlotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkBlotApp.swift; sourceTree = "<group>"; };
+		6FA08E87E005D60F7D16E254 /* InkBlot.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = InkBlot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		770062B6568BC26CA7C02CE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		84B8342EF968B6234B156BE8 /* MarkdownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownDocument.swift; sourceTree = "<group>"; };
+		A1FAE88D5C37270D7C99E5B9 /* preview.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = preview.css; sourceTree = "<group>"; };
+		A935AAFC9A534B65C71CD080 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		B4D09466313E41AA0B044E93 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
+		BD3199D3065C4FAC66185A5C /* InkBlot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InkBlot.entitlements; sourceTree = "<group>"; };
+		BF6A74C9B9C47CE9771C9E3E /* QuickLookExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = QuickLookExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74E3EB5305098B6C9A6587E /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		CFF5BD209A0C8124D181B084 /* MarkdownWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownWebView.swift; sourceTree = "<group>"; };
+		D21B2DAEE39A0775AC0DE778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D7B28EDDFB49DC076D495CDB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		690D5F4501D6DAC0F1270805 /* QuickLookExtension */ = {
+			isa = PBXGroup;
+			children = (
+				46AEBA3AE426A241472655A7 /* Info.plist */,
+				A1FAE88D5C37270D7C99E5B9 /* preview.css */,
+				B4D09466313E41AA0B044E93 /* PreviewProvider.swift */,
+				1E481A76315E4099CE9DCBDB /* QuickLookExtension.entitlements */,
+			);
+			path = QuickLookExtension;
+			sourceTree = "<group>";
+		};
+		70F2713C327969ADDAFBAEB6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				554F12DD0F0D2A4C15A0C9F2 /* preview.css */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		93FFE058306ABD56FCB320B5 /* InkBlot */ = {
+			isa = PBXGroup;
+			children = (
+				4EE0A6AE34266CA9D1007094 /* Assets.xcassets */,
+				31C94F3BB2531218E04CEF16 /* ContentView.swift */,
+				1E9A52A5F16C0D70786F9DD4 /* DocumentBrowserViewController.swift */,
+				57302141C132FA48EDC6F3E0 /* DocumentReaderView.swift */,
+				D21B2DAEE39A0775AC0DE778 /* Info.plist */,
+				BD3199D3065C4FAC66185A5C /* InkBlot.entitlements */,
+				686A3A41C0517809867D6A73 /* InkBlotApp.swift */,
+				84B8342EF968B6234B156BE8 /* MarkdownDocument.swift */,
+				CFF5BD209A0C8124D181B084 /* MarkdownWebView.swift */,
+				A935AAFC9A534B65C71CD080 /* PaywallView.swift */,
+				C74E3EB5305098B6C9A6587E /* StoreManager.swift */,
+				D7B28EDDFB49DC076D495CDB /* WelcomeView.swift */,
+				70F2713C327969ADDAFBAEB6 /* Resources */,
+			);
+			path = InkBlot;
+			sourceTree = "<group>";
+		};
+		B4858E7D615C4AB2FE07B5C9 = {
+			isa = PBXGroup;
+			children = (
+				93FFE058306ABD56FCB320B5 /* InkBlot */,
+				690D5F4501D6DAC0F1270805 /* QuickLookExtension */,
+				E1B6E38466B98DFFB143CB81 /* ShareExtension */,
+				C09D55C18F5FE3BD43EF0D78 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C09D55C18F5FE3BD43EF0D78 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FA08E87E005D60F7D16E254 /* InkBlot.app */,
+				BF6A74C9B9C47CE9771C9E3E /* QuickLookExtension.appex */,
+				0D41E84ED3470A971A721DEB /* ShareExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1B6E38466B98DFFB143CB81 /* ShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				770062B6568BC26CA7C02CE2 /* Info.plist */,
+				23C347D0B2B482BBFF5596DC /* ShareExtension.entitlements */,
+				622C2493ABD92B3B74055734 /* ShareViewController.swift */,
+			);
+			path = ShareExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		859956E873E9C6F62250C84C /* QuickLookExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD9B9424783710ADCE2895F9 /* Build configuration list for PBXNativeTarget "QuickLookExtension" */;
+			buildPhases = (
+				E1C3A823486D080A744884BE /* Sources */,
+				A1057452D596F412BE05CE9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuickLookExtension;
+			packageProductDependencies = (
+			);
+			productName = QuickLookExtension;
+			productReference = BF6A74C9B9C47CE9771C9E3E /* QuickLookExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		B9A84116AFA56AE95037A9F3 /* InkBlot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 599C657FC49211EA0E8836B0 /* Build configuration list for PBXNativeTarget "InkBlot" */;
+			buildPhases = (
+				A6A30638102620176CB035FC /* Sources */,
+				9E414EF00DC0DBE6C679850F /* Resources */,
+				A74E440FFD492D7F81C6E674 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				013690903E90CCD79941E176 /* PBXTargetDependency */,
+				45644343FD4DD685A0146139 /* PBXTargetDependency */,
+			);
+			name = InkBlot;
+			packageProductDependencies = (
+			);
+			productName = InkBlot;
+			productReference = 6FA08E87E005D60F7D16E254 /* InkBlot.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BF12031913E09CC868FAF240 /* ShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BC93F09C7E15F1985A4B521 /* Build configuration list for PBXNativeTarget "ShareExtension" */;
+			buildPhases = (
+				AE7950AED8D3B464A53030BB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareExtension;
+			packageProductDependencies = (
+			);
+			productName = ShareExtension;
+			productReference = 0D41E84ED3470A971A721DEB /* ShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C66D5BB46C48C21621EB817C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					859956E873E9C6F62250C84C = {
+						DevelopmentTeam = 4U4L9UVK62;
+					};
+					B9A84116AFA56AE95037A9F3 = {
+						DevelopmentTeam = 4U4L9UVK62;
+					};
+					BF12031913E09CC868FAF240 = {
+						DevelopmentTeam = 4U4L9UVK62;
+					};
+				};
+			};
+			buildConfigurationList = E9E80C82461C1A9D6F018713 /* Build configuration list for PBXProject "InkBlot" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B4858E7D615C4AB2FE07B5C9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B9A84116AFA56AE95037A9F3 /* InkBlot */,
+				859956E873E9C6F62250C84C /* QuickLookExtension */,
+				BF12031913E09CC868FAF240 /* ShareExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9E414EF00DC0DBE6C679850F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAF0F3E7033E7FE7909A878A /* Assets.xcassets in Resources */,
+				504CA8A5C3BDA0BD6DCE7D9C /* preview.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1057452D596F412BE05CE9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A534381C476CBD034A326910 /* preview.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A6A30638102620176CB035FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FB8E10BD76659ED0E6D305D /* ContentView.swift in Sources */,
+				86966D95B7849BD29D93410B /* DocumentBrowserViewController.swift in Sources */,
+				551CE540E2994B56A4A8C2A5 /* DocumentReaderView.swift in Sources */,
+				D10F0CCDCDC734D88C118D73 /* InkBlotApp.swift in Sources */,
+				245908EA10AE9776F1706E18 /* MarkdownDocument.swift in Sources */,
+				325FE15644E9A26F7EF03BBC /* MarkdownWebView.swift in Sources */,
+				EEA2BF44F8F42E16F7AFAA1F /* PaywallView.swift in Sources */,
+				BF7271761FD4FD24A83E0C63 /* StoreManager.swift in Sources */,
+				14E44F70FC94894CA89A53CC /* WelcomeView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE7950AED8D3B464A53030BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5765D2DD84A81524594AD75F /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C3A823486D080A744884BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48E3A24556EA12F63AFA0198 /* PreviewProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		013690903E90CCD79941E176 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 859956E873E9C6F62250C84C /* QuickLookExtension */;
+			targetProxy = 89C5D4C2153D1125D8995016 /* PBXContainerItemProxy */;
+		};
+		45644343FD4DD685A0146139 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF12031913E09CC868FAF240 /* ShareExtension */;
+			targetProxy = 6157B1BB01F924A940DFAC56 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		05F6EB010BE47C3A7C1B83CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InkBlot/InkBlot.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InkBlot/Info.plist;
+				INFOPLIST_GENERATION_MODE = GeneratedFile;
+				INFOPLIST_KEY_CFBundleDisplayName = InkBlot;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		428E2DEED737F53F21BE043F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios.share;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		56F377CDE13EF07ACD508A0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4U4L9UVK62;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5917676984971F946D3ADD89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = QuickLookExtension/QuickLookExtension.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios.quicklook;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6300A9C1A11C686D4FA11F43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios.share;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B443E59BFF66B40EE7B9ECAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InkBlot/InkBlot.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InkBlot/Info.plist;
+				INFOPLIST_GENERATION_MODE = GeneratedFile;
+				INFOPLIST_KEY_CFBundleDisplayName = InkBlot;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B775B77B9DFDEFBAB10153EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = QuickLookExtension/QuickLookExtension.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.eregionlabs.inkwell.ios.quicklook;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F0764FC74CA80579DFB456B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 4U4L9UVK62;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BC93F09C7E15F1985A4B521 /* Build configuration list for PBXNativeTarget "ShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6300A9C1A11C686D4FA11F43 /* Debug */,
+				428E2DEED737F53F21BE043F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		599C657FC49211EA0E8836B0 /* Build configuration list for PBXNativeTarget "InkBlot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05F6EB010BE47C3A7C1B83CD /* Debug */,
+				B443E59BFF66B40EE7B9ECAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CD9B9424783710ADCE2895F9 /* Build configuration list for PBXNativeTarget "QuickLookExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5917676984971F946D3ADD89 /* Debug */,
+				B775B77B9DFDEFBAB10153EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E9E80C82461C1A9D6F018713 /* Build configuration list for PBXProject "InkBlot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56F377CDE13EF07ACD508A0C /* Debug */,
+				F0764FC74CA80579DFB456B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C66D5BB46C48C21621EB817C /* Project object */;
+}
