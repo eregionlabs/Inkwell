@@ -128,6 +128,15 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
+  // Send pending file opened before window was ready
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (pendingFilePath) {
+      const content = fs.readFileSync(pendingFilePath, 'utf-8');
+      mainWindow.webContents.send('file-opened', { filePath: pendingFilePath, content });
+      pendingFilePath = null;
+    }
+  });
+
   // Relay find-in-page results back to renderer
   mainWindow.webContents.on('found-in-page', (event, result) => {
     mainWindow.webContents.send('find-result', {
@@ -147,6 +156,19 @@ ipcMain.handle('find-in-page', (event, text, options) => {
 
 ipcMain.handle('stop-find', () => {
   mainWindow.webContents.stopFindInPage('clearSelection');
+});
+
+// Handle files opened via Finder (double-click, "Open With", drag onto dock icon)
+let pendingFilePath = null;
+
+app.on('open-file', (event, filePath) => {
+  event.preventDefault();
+  if (mainWindow && mainWindow.webContents) {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    mainWindow.webContents.send('file-opened', { filePath, content });
+  } else {
+    pendingFilePath = filePath;
+  }
 });
 
 app.on('window-all-closed', () => {

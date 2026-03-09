@@ -283,6 +283,11 @@ btnPreview.addEventListener('click', togglePreviewFullscreen);
 
 window.api.onMenuNew(() => newFile());
 window.api.onMenuOpen(() => openFile());
+
+// Handle files opened from OS (Finder double-click, "Open With", drag to dock)
+window.api.onFileOpened((data) => {
+  setFile(data.filePath, data.content);
+});
 window.api.onMenuOpenFolder(() => openFolder());
 window.api.onMenuSave(() => saveFile());
 window.api.onMenuSaveAs(() => saveFileAs());

@@ -4,8 +4,8 @@ module.exports = {
   packagerConfig: {
     name: 'InkBlot',
     appBundleId: 'com.eregionlabs.inkwell',
-    appVersion: '1.2.0',
-    buildVersion: '7',
+    appVersion: '1.2.1',
+    buildVersion: '8',
     icon: path.join(__dirname, 'build', 'icon'),
     asar: true,
     appCategoryType: 'public.app-category.productivity',
@@ -17,6 +17,27 @@ module.exports = {
       ElectronTeamID: '4U4L9UVK62',
       CFBundleIconName: 'AppIcon',
       LSMinimumSystemVersion: '12.0.0',
+      CFBundleDocumentTypes: [
+        {
+          CFBundleTypeName: 'Markdown Document',
+          CFBundleTypeRole: 'Editor',
+          LSHandlerRank: 'Default',
+          LSItemContentTypes: [
+            'net.daringfireball.markdown',
+            'public.plain-text',
+          ],
+        },
+      ],
+      UTImportedTypeDeclarations: [
+        {
+          UTTypeIdentifier: 'net.daringfireball.markdown',
+          UTTypeDescription: 'Markdown Document',
+          UTTypeConformsTo: ['public.plain-text'],
+          UTTypeTagSpecification: {
+            'public.filename-extension': ['md', 'markdown', 'mdown', 'mkd'],
+          },
+        },
+      ],
     },
 
     osxSign: {

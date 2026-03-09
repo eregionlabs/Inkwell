@@ -30,6 +30,9 @@ contextBridge.exposeInMainWorld('api', {
   // Folder sync
   onFolderChanged: (cb) => ipcRenderer.on('folder-changed', (event, tree) => cb(tree)),
 
+  // File opened from OS (Finder double-click, Open With)
+  onFileOpened: (cb) => ipcRenderer.on('file-opened', (event, data) => cb(data)),
+
   // In-app purchase
   purchase: () => ipcRenderer.invoke('iap-purchase'),
   restorePurchase: () => ipcRenderer.invoke('iap-restore'),
