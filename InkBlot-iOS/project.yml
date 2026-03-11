@@ -8,7 +8,7 @@ settings:
   base:
     DEVELOPMENT_TEAM: 4U4L9UVK62
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "6"
+    CURRENT_PROJECT_VERSION: "9"
 
 targets:
   InkBlot:
@@ -39,10 +39,14 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
           UISceneConfigurations: {}
+        CFBundleURLTypes:
+          - CFBundleURLName: InkBlot File Handler
+            CFBundleURLSchemes:
+              - inkblot
         CFBundleDocumentTypes:
           - CFBundleTypeName: Markdown
             CFBundleTypeRole: Viewer
-            LSHandlerRank: Alternate
+            LSHandlerRank: Default
             LSItemContentTypes:
               - net.daringfireball.markdown
               - public.plain-text

@@ -4,6 +4,9 @@ import UniformTypeIdentifiers
 
 class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate {
 
+    /// Set by SceneDelegate when file URL arrives before view is ready
+    var pendingURL: URL?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,7 +53,10 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
                     get: { true },
                     set: { [weak self] dismissed in
                         if !dismissed {
-                            self?.dismiss(animated: true)
+                            self?.dismiss(animated: true) {
+                                // Open pending file after welcome is dismissed
+                                self?.processPendingURL()
+                            }
                         }
                     }
                 ))
@@ -58,7 +64,15 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
             welcomeVC.modalPresentationStyle = .fullScreen
             welcomeVC.view.backgroundColor = UIColor(red: 245/255, green: 240/255, blue: 232/255, alpha: 1)
             present(welcomeVC, animated: true)
+        } else {
+            processPendingURL()
         }
+    }
+
+    private func processPendingURL() {
+        guard let url = pendingURL else { return }
+        pendingURL = nil
+        importAndOpen(url: url)
     }
 
     // MARK: - UIDocumentBrowserViewControllerDelegate
@@ -80,6 +94,42 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         // Handle error silently
     }
 
+    // MARK: - Import & Open
+
+    /// Import a file through the document browser (handles sandbox/security properly)
+    func importAndOpen(url: URL) {
+        // First try to copy the file to our sandbox via the Inbox
+        let inbox = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Inbox")
+        try? FileManager.default.createDirectory(at: inbox, withIntermediateDirectories: true)
+
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+
+        // Try reading directly first (works for files already in our sandbox)
+        if let data = try? Data(contentsOf: url), let text = String(data: data, encoding: .utf8) {
+            presentDocument(text: text, fileName: url.deletingPathExtension().lastPathComponent, fileURL: url)
+            return
+        }
+
+        // If direct read fails, copy to Inbox then open
+        let dest = inbox.appendingPathComponent(url.lastPathComponent)
+        try? FileManager.default.removeItem(at: dest)
+        if let _ = try? FileManager.default.copyItem(at: url, to: dest),
+           let data = try? Data(contentsOf: dest),
+           let text = String(data: data, encoding: .utf8) {
+            presentDocument(text: text, fileName: dest.deletingPathExtension().lastPathComponent, fileURL: dest)
+            return
+        }
+
+        // If everything fails, use revealDocument which handles import natively
+        revealDocument(at: url, importIfNeeded: true) { [weak self] revealedURL, error in
+            guard let revealedURL = revealedURL, error == nil else { return }
+            DispatchQueue.main.async {
+                self?.openDocument(at: revealedURL)
+            }
+        }
+    }
+
     // MARK: - Open Document
 
     func openDocument(at url: URL) {
@@ -87,31 +137,42 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
 
         do {
             let data = try Data(contentsOf: url)
-            guard let text = String(data: data, encoding: .utf8) else { return }
-
-            let fileName = url.deletingPathExtension().lastPathComponent
-            let storeManager = (UIApplication.shared.delegate as? AppDelegate)?.storeManager ?? StoreManager()
-
-            let contentView = DocumentReaderView(
-                markdown: text,
-                fileName: fileName,
-                fileURL: url
-            )
-            .environmentObject(storeManager)
-
-            let hostingVC = UIHostingController(rootView: contentView)
-            hostingVC.view.backgroundColor = UIColor(red: 245/255, green: 240/255, blue: 232/255, alpha: 1)
-            hostingVC.modalPresentationStyle = .fullScreen
-
-            present(hostingVC, animated: true) {
-                if accessing {
-                    url.stopAccessingSecurityScopedResource()
-                }
+            guard let text = String(data: data, encoding: .utf8) else {
+                if accessing { url.stopAccessingSecurityScopedResource() }
+                return
             }
+            if accessing { url.stopAccessingSecurityScopedResource() }
+            presentDocument(text: text, fileName: url.deletingPathExtension().lastPathComponent, fileURL: url)
         } catch {
-            if accessing {
-                url.stopAccessingSecurityScopedResource()
-            }
+            if accessing { url.stopAccessingSecurityScopedResource() }
         }
+    }
+
+    private func presentDocument(text: String, fileName: String, fileURL: URL) {
+        // Dismiss any existing presented view controller first
+        if presentedViewController != nil {
+            dismiss(animated: false) { [weak self] in
+                self?.showDocumentReader(text: text, fileName: fileName, fileURL: fileURL)
+            }
+        } else {
+            showDocumentReader(text: text, fileName: fileName, fileURL: fileURL)
+        }
+    }
+
+    private func showDocumentReader(text: String, fileName: String, fileURL: URL) {
+        let storeManager = (UIApplication.shared.delegate as? AppDelegate)?.storeManager ?? StoreManager()
+
+        let contentView = DocumentReaderView(
+            markdown: text,
+            fileName: fileName,
+            fileURL: fileURL
+        )
+        .environmentObject(storeManager)
+
+        let hostingVC = UIHostingController(rootView: contentView)
+        hostingVC.view.backgroundColor = UIColor(red: 245/255, green: 240/255, blue: 232/255, alpha: 1)
+        hostingVC.modalPresentationStyle = .fullScreen
+
+        present(hostingVC, animated: true)
     }
 }
