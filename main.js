@@ -166,6 +166,8 @@ app.on('open-file', (event, filePath) => {
   if (mainWindow && mainWindow.webContents) {
     const content = fs.readFileSync(filePath, 'utf-8');
     mainWindow.webContents.send('file-opened', { filePath, content });
+    mainWindow.show();
+    app.focus({ steal: true });
   } else {
     pendingFilePath = filePath;
   }
